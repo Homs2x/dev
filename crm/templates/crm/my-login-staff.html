@@ -13,9 +13,9 @@
     <div class="loader"></div>
 
     <form method="POST" autocomplete="off">
-        <h1>Login here as a Donator!</h1>
+        <h1>Login here as a Staff!</h1>
         {% csrf_token %}
-        {{ loginform.as_p }}
+        {{ loginforms.as_p }}
         <input type="submit" value="Login" />
     <div>
         <p>Don't have an account? <a href="{% url 'register' %}">Register</a></p>

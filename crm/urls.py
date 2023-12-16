@@ -13,9 +13,13 @@ urlpatterns = [
     
     path('', views.homepage, name=""),
 
+    path('login-choice', views.login_choice, name="login-choice"),
+
     path('register', views.register, name="register"),
 
     path('my-login', views.my_login, name="my-login"),
+
+     path('my-login-staff', views.my_login_staff, name="my-login-staff"),
 
     path('dashboard', views.dashboard, name="dashboard"),
 

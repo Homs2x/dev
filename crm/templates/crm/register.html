@@ -13,7 +13,6 @@
     <form method="POST" autocomplete="off" id="registration-form">
         <h1>Register now!</h1>
         {% csrf_token %}
-        
         <div class="form-field" onmouseover="showHelpText(this)" onmouseout="hideHelpText(this)">
             <label for="{{ registerform.username.id_for_label }}">Username:</label>
             {{ registerform.username }}
@@ -37,11 +36,17 @@
             <div class="help-text">{{ registerform.password2.help_text }}</div>
         </div>
 
+        <div class="form-field">
+            <label for="{{ registerform.status.id_for_label }}">User Status:</label>
+            {{ registerform.status }}
+        </div>
+
         <input type="submit" value="Register" />
 
         <div>
-            <p>Already have an account? <a href="{% url 'my-login' %}">Login</a></p>
+            <p>Already have an account? <a href="{% url 'my-login' %}">Login as a Donator?</a><a href="{% url 'my-login-staff' %}">Login as a Staff?</a></p>
         </div>
+        
 
     </form>
 

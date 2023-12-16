@@ -19,27 +19,6 @@
   <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
   <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
   <link href="{% static 'main.css' %}" rel="stylesheet">
-  <style>
-    /* Light Theme Styles */
-    .light-theme {
-      background-color: #ffffff;
-      color: #000000;
-    }
-
-    /* Dark Theme Styles */
-    .dark-theme {
-      background-color: #1a1a1a;
-      color: #ffffff;
-    }
-
-    /* Style for the theme toggle button */
-    #theme-toggle {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 1000;
-    }
-  </style>
 </head>
 
 <body class="light-theme"> <!-- Set the initial theme -->
@@ -68,19 +47,19 @@
 
   <section id="hero" class="hero py-5">
     <div class="container py-2">
-      <div class="row align-items-center">
-        <div class="col">
-          <h2 class="text-center mb-4">Events</h2>
+        <div class="row align-items-center">
+            <div class="col">
+                <h2 class="text-center mb-4">Events</h2>
+            </div>
+            <div class="col text-end">
+                <button class="btn btn-primary" id="open-event-modal-button">Create Event</button>
+            </div>
         </div>
-        <div class="col text-end">
-          <button class="btn btn-primary" id="open-event-modal-button">Create Event</button>
-        </div>
-      </div>
     </div>
-  </section>
+</section>
 
-  <!-- Modal for Event Creation -->
-  <div id="eventModal" class="modal">
+<!-- Modal for Event Creation -->
+<div id="eventModal" class="modal">
     <div class="modal-content">
       <span class="close" id="close-modal">&times;</span>
       <h2 class="modal-title">Create an Event</h2>
@@ -113,7 +92,7 @@
     <!-- Footer content goes here -->
   </footer>
 
-  <!-- Theme toggle button -->
+  <!-- Add a button to toggle between light and dark themes -->
   <button id="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
 
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

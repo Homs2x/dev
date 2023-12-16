@@ -31,7 +31,7 @@
       </a>
       <nav id="navbar" class="navbar">
         <ul> 
-          <li><a href="{% url 'orglist' %}">Register new Organization</a></li>
+          <li><a href="{% url 'registerorg' %}">Register new Organization</a></li>
           <li><a href="{% url 'orglist' %}">Listed Organizations</a></li>
           <li><a href="{% url 'dashboard' %}">Events</a></li>
           <li><a href="{% url 'locate' %}">Locate</a></li>
@@ -55,7 +55,7 @@
             <div class="table-responsive">
               {% if messages %}
                 {% for message in messages %}
-                  <p>{{ message }} <a href="{% url 'orglist' %}" style="color: red;">X</a></p>
+                  <p>{{ message }} <a href="{% url 'registerorg' %}" style="color: red;">X</a></p>
                 {% endfor %}
               {% endif %}
               <form action="" method="POST" class="fancy-form" id="myForm" style="display: none;">
@@ -84,7 +84,6 @@
       </div>
     </div>
   </section>
-<!--MAO NING SA DISPLAY-->
 
   
   <script>

@@ -39,14 +39,3 @@ h1 {
     background-color: #c0392b;
 }
 
-/* Light Theme Styles */
-.light-theme {
-    background-color: #ffffff;
-    color: #000000;
-  }
-  
-  /* Dark Theme Styles */
-  .dark-theme {
-    background-color: #1a1a1a;
-    color: #ffffff;
-  }
