@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  {% load static %}
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Locate Organizations</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+  <link href="assets/img/icon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Raleway:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  <link href="{% static 'main.css' %}" rel="stylesheet">
+  
+
+  <!-- Add the Google Maps API script with your API key -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMVLiRByOILdL6pqeIrQv2QBbwb3gNFwI&libraries=places" async defer></script>
+
+  <!-- Add your custom styles or scripts related to the Google Maps integration here -->
+</head>
+
+<body>
+  <header id="header" class="header d-flex align-items-center">
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+      <a href="{% url 'dashboard' %}" class="logo d-flex align-items-center">
+        <h1>FBTB<span>.</span></h1>
+      </a>
+      <nav id="navbar" class="navbar">
+        <ul>
+          <!-- Add any additional navigation links you may need -->
+          <li><a href="{% url 'registerorg' %}">Register new Organization</a></li>
+          <li><a href="{% url 'orglist' %}">Listed Organizations</a></li>
+          <li><a href="{% url 'dashboard' %}">Events</a></li>
+          <li><a href="{% url 'locate' %}">Locate</a></li>
+          <li><a href="{% url 'donate' %}">Donate</a></li>
+          <li><a href="{% url 'feedback' %}">Feedback</a></li>
+          <li><a href="{% url 'account' %}">Account</a></li>
+          <li><a href="{% url 'user-logout' %}">Logout</a></li>
+        </ul>
+      </nav>
+      <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
+      <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
+    </div>
+  </header>
+
+  <section id="locate" class="locate d-flex justify-content-center align-items-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+          <h1>Locate Organizations</h1>
+          <p>Use the map below to find the location of listed organizations.</p>
+          <!-- Google Maps Container -->
+          <div id="map" style="height: 500px; width: 500px; left: 500px;"></div>
+          <!-- Search input box -->
+          <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer>
+    <!-- Footer content goes here -->
+  </footer>
+
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/locate.js"></script>
+
+  <script>
+    function initMap() {
+      var defaultLocation = { lat: 8.961686, lng: 125.602745 }; // Ampayon, Butuan City
+
+      var map = new google.maps.Map(document.getElementById('map'), {
+        center: defaultLocation,
+        zoom: 13
+      });
+
+      var marker = new google.maps.Marker({
+        position: defaultLocation,
+        map: map,
+        title: 'Organization Name'
+      });
+
+      // Create the search box and link it to the UI element.
+      var input = document.getElementById('pac-input');
+      var searchBox = new google.maps.places.SearchBox(input);
+      map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+      // Bias the SearchBox results towards current map's viewport.
+      map.addListener('bounds_changed', function() {
+        searchBox.setBounds(map.getBounds());
+      });
+
+      var markers = [];
+
+      // Listen for the event fired when the user selects a prediction and retrieve
+      // more details for that place.
+      searchBox.addListener('places_changed', function() {
+        var places = searchBox.getPlaces();
+
+        if (places.length == 0) {
+          return;
+        }
+
+        // Clear out the old markers.
+        markers.forEach(function(marker) {
+          marker.setMap(null);
+        });
+        markers = [];
+
+        // For each place, get the icon, name, and location.
+        var bounds = new google.maps.LatLngBounds();
+        places.forEach(function(place) {
+          if (!place.geometry) {
+            console.log("Returned place contains no geometry");
+            return;
+          }
+
+          // Create a marker for each place.
+          markers.push(new google.maps.Marker({
+            map: map,
+            title: place.name,
+            position: place.geometry.location
+          }));
+
+          if (place.geometry.viewport) {
+            // Only geocodes have viewport.
+            bounds.union(place.geometry.viewport);
+          } else {
+            bounds.extend(place.geometry.location);
+          }
+        });
+        map.fitBounds(bounds);
+      });
+    }
+
+    // Call the initMap function when the page is loaded
+    google.maps.event.addDomListener(window, 'load', initMap);
+  </script>
+</body>
+
+</html>

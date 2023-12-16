@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'login-register.css' %}">
+</head>
+
+<body>
+    <div class="loader"></div>
+
+    <form method="POST" autocomplete="off">
+        <h1>Login here!</h1>
+        {% csrf_token %}
+        {{ loginform.as_p }}
+        <input type="submit" value="Login" />
+
+    <div>
+        <p>Don't have an account? <a href="{% url 'register' %}">Register</a></p>
+    </div>
+</form>
+</body>
+
+</html>

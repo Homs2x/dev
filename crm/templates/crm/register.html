@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'login-register.css' %}">
+</head>
+
+<body>
+    <form method="POST" autocomplete="off" id="registration-form">
+        <h1>Register now!</h1>
+        {% csrf_token %}
+        
+        <div class="form-field" onmouseover="showHelpText(this)" onmouseout="hideHelpText(this)">
+            <label for="{{ registerform.username.id_for_label }}">Username:</label>
+            {{ registerform.username }}
+            <div class="help-text">{{ registerform.username.help_text }}</div>
+        </div>
+
+        <div class="form-field">
+            <label for="{{ registerform.email.id_for_label }}">Email:</label>
+            {{ registerform.email }}
+        </div>  
+
+        <div class="form-field" onmouseover="showHelpText(this)" onmouseout="hideHelpText(this)">
+            <label for="{{ registerform.password1.id_for_label }}">Password:</label>
+            {{ registerform.password1 }}
+            <div class="help-text">{{ registerform.password1.help_text }}</div>
+        </div>
+
+        <div class="form-field" onmouseover="showHelpText(this)" onmouseout="hideHelpText(this)">
+            <label for="{{ registerform.password2.id_for_label }}">Confirm Password:</label>
+            {{ registerform.password2 }}
+            <div class="help-text">{{ registerform.password2.help_text }}</div>
+        </div>
+
+        <input type="submit" value="Register" />
+
+        <div>
+            <p>Already have an account? <a href="{% url 'my-login' %}">Login</a></p>
+        </div>
+
+    </form>
+
+
+    <script src="{% static 'register.js' %}"></script>
+</body>
+
+</html>
