@@ -69,6 +69,9 @@
     <!-- Footer content goes here -->
   </footer>
 
+    <!-- Add a button to toggle between light and dark themes -->
+    <button id="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
+
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="assets/vendor/aos/aos.js"></script>
   <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
@@ -149,6 +152,28 @@
 
     // Call the initMap function when the page is loaded
     google.maps.event.addDomListener(window, 'load', initMap);
+
+                     // Function to toggle between light and dark themes
+                     function toggleTheme() {
+      const body = document.body;
+      body.classList.toggle('light-theme');
+      body.classList.toggle('dark-theme');
+    }
+  
+    document.addEventListener('DOMContentLoaded', function () {
+      const navbar = document.getElementById('navbar');
+      const navList = navbar.querySelector('ul');
+      const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
+      const mobileNavHide = document.querySelector('.mobile-nav-hide');
+  
+      mobileNavToggle.addEventListener('click', function () {
+        navList.classList.toggle('show');
+      });
+  
+      mobileNavHide.addEventListener('click', function () {
+        navList.classList.remove('show');
+      });
+    });
   </script>
 </body>
 

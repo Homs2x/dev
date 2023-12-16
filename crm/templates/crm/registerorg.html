@@ -7,7 +7,7 @@
   {% load static %}
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Organizations</title>
+  <title>Register Organization</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
   <link href="assets/img/icon.png" rel="icon">
@@ -74,17 +74,18 @@
                   <label for="contactInfo">Contact:</label>
                   <input type="text" id="contactInfo" placeholder="Enter Contact Information" name="contactInfo" required>
                 </div>
-                <button type="submit" class="btn">Submit</button>
-                <button type="button" class="btn" onclick="handleClose()">Close</button>
+                <button type="submit" class="btn btn-success">Submit</button>
+                <button type="button" class="btn btn-danger" onclick="handleClose()">Close</button>
               </form>
-              <button type="button" class="btn" onclick="handleAppear()">Register Organization</button>
-            </div>
+              <button type="button" class="btn btn-primary" onclick="handleAppear()">Register Organization</button>
           </div>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- Theme toggle button -->
+  <button id="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>  
   
   <script>
     function handleAppear() {
@@ -130,6 +131,27 @@
             alert('An error occurred. Please try again.');
         }
     }
+                 // Function to toggle between light and dark themes
+                 function toggleTheme() {
+      const body = document.body;
+      body.classList.toggle('light-theme');
+      body.classList.toggle('dark-theme');
+    }
+  
+    document.addEventListener('DOMContentLoaded', function () {
+      const navbar = document.getElementById('navbar');
+      const navList = navbar.querySelector('ul');
+      const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
+      const mobileNavHide = document.querySelector('.mobile-nav-hide');
+  
+      mobileNavToggle.addEventListener('click', function () {
+        navList.classList.toggle('show');
+      });
+  
+      mobileNavHide.addEventListener('click', function () {
+        navList.classList.remove('show');
+      });
+    });
 </script>
 
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

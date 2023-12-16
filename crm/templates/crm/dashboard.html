@@ -13,15 +13,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Raleway:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
-  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-  <link href="{% static 'main.css' %}" rel="stylesheet">
+  <link href="{% static 'main.css' %}" rel="stylesheet">  
 </head>
 
 <body class="light-theme"> <!-- Set the initial theme -->
+  
 
   <header id="header" class="header d-flex align-items-center">
     <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
@@ -44,49 +40,43 @@
       <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
     </div>
   </header>
-
   <section id="hero" class="hero py-5">
     <div class="container py-2">
         <div class="row align-items-center">
             <div class="col">
                 <h2 class="text-center mb-4">Events</h2>
             </div>
-            <div class="col text-end">
-                <button class="btn btn-primary" id="open-event-modal-button">Create Event</button>
-            </div>
+            {% if messages %}
+                {% for message in messages %}
+                  <p>{{ message }} <a href="{% url 'dashboard' %}" style="color: red;">X</a></p>
+                {% endfor %}
+              {% endif %}
+            <form action="" method="POST" class="fancy-form" id="myForm" style="display: none;">
+              {% csrf_token %}
+              {{ form.as_p }}
+              <button type="submit" class="btn btn-primary" id="open-event-modal-button">Submit</button>
+          </form>
+          <button type="button" class="btn btn-primary" onclick="handleAppear()">Create Event</button>
         </div>
     </div>
 </section>
 
-<!-- Modal for Event Creation -->
-<div id="eventModal" class="modal">
-    <div class="modal-content">
-      <span class="close" id="close-modal">&times;</span>
-      <h2 class="modal-title">Create an Event</h2>
-      <form id="event-creation-form">
-        <!-- Your form fields go here -->
-      </form>
-      <button class="btn btn-primary mt-2" type="submit">Create Event</button>
-    </div>
-  </div>
-
   <!-- Section for Displaying Events -->
+ 
   <section id="event-list" class="py-5">
     <div class="container">
       <h2>Upcoming Events</h2>
       <div class="event-list">
-        {% for event in events %}
-        <div class="event">
-          <h3>{{ event.title }}</h3>
-          <p>Date: {{ event.date }}</p>
-          <p>Duration: {{ event.duration }}</p>
-          <p>Description: {{ event.description }}</p>
-          <p>Author: {{ event.author }}</p>
-        </div>
+        {% for form in form %}
+          <p>Event Name: {{ form.eventName }}</p>
+          <p>Description: {{ form.desc }}</p>
+          <p>Organization: {{form.org_information}}</p>
+          <hr>
         {% endfor %}
       </div>
     </div>
   </section>
+
 
   <footer>
     <!-- Footer content goes here -->
@@ -95,17 +85,50 @@
   <!-- Add a button to toggle between light and dark themes -->
   <button id="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
 
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/aos/aos.js"></script>
-  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
-  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
-  <script src="assets/js/main.js"></script>
-  <script src="assets/js/events.js"></script>
-
   <script>
+        function handleAppear() {
+    // Hide the Appear button, show the form and Close button
+    var form = document.getElementById('myForm');
+    var resultContainer = document.getElementById('resultContainer');
+
+    form.style.display = 'block';
+    resultContainer.style.display = 'none';
+
+    // Hide the Appear button
+    var appearButton = document.querySelector('#myForm button:first-child');
+    appearButton.style.display = 'none';
+  }
+
+  function handleClose() {
+    // Hide the form and Close button, show the Appear button
+    var form = document.getElementById('myForm');
+    var closeButton = document.querySelector('#myForm button:last-child');
+
+    form.style.display = 'none';
+    closeButton.style.display = 'static';
+  }
+    async function handleSubmit(event) {
+        event.preventDefault();
+
+        const formData = new FormData(event.target);
+        try {
+            const response = await fetch(event.target.action, {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (response.ok) {
+                // Successful submission
+                alert('Organization successfuly added!');
+            } else {
+                // Unsuccessful submission
+                alert('Form submission failed. Please try again.');
+            }
+        } catch (error) {
+            console.error('An error occurred:', error);
+            alert('An error occurred. Please try again.');
+        }
+    }
     // Function to toggle between light and dark themes
     function toggleTheme() {
       const body = document.body;

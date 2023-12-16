@@ -1,11 +1,6 @@
 from django.urls import path, include
 
-from rest_framework import routers
-
 from . import views
-
-router = routers.DefaultRouter()
-router.register(r'Event', views.EventViewSet)
 
 urlpatterns = [
 
@@ -22,8 +17,6 @@ urlpatterns = [
      path('my-login-staff', views.my_login_staff, name="my-login-staff"),
 
     path('dashboard', views.dashboard, name="dashboard"),
-
-    path('d',include(router.urls)),
 
     path('Event', include('rest_framework.urls', namespace='rest_framework')),
 

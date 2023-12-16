@@ -18,7 +18,8 @@ class Info(models.Model):
 class Events(models.Model):
     eventName = models.CharField(max_length=255)
     date_added = models.DateField(auto_now_add=True)
-    org_information = models.ForeignKey(Info, on_delete=models.CASCADE)
+    desc = models.CharField(max_length=200, null=True)
+    org_information = models.ForeignKey(Info, on_delete=models.CASCADE, null=True)
 
     class Meta:
         verbose_name_plural = "Events"

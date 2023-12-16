@@ -3,9 +3,10 @@ from django import forms
 from django.forms.widgets import PasswordInput, TextInput
 from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate
+from django.contrib.auth.forms import UserChangeForm
 
 
-from .models import Staff
+from .models import Events, Info, Staff
 
 class CustomAuthenticationForm(AuthenticationForm):
     class Meta:
@@ -58,3 +59,31 @@ class MyRegistrationForm(UserCreationForm):
         if commit:
             user.save()
         return user
+    
+class EventRegistrationForm(forms.ModelForm):
+    class Meta:
+        model = Events
+        fields = ['eventName', 'desc']
+
+    org_information = forms.ModelChoiceField(
+        queryset=Info.objects.all(),
+        label='Organization',
+        empty_label='Select an organization',
+        required=True  # Set to True if selecting an organization is mandatory
+    )
+    def save(self, commit=True):
+        instance = super(EventRegistrationForm, self).save(commit=False)
+
+        # Set the org_information field based on the selected organization in the form
+        instance.org_information = self.cleaned_data['org_information']
+
+        if commit:
+            instance.save()
+
+        return instance
+    
+class CustomUserChangeForm(UserChangeForm):
+    password = forms.CharField(widget=forms.PasswordInput)
+    class Meta:
+        model = get_user_model()
+        fields = ['username', 'email']

@@ -67,7 +67,9 @@
   </section>
 <!--MAO NING SA DISPLAY-->
 
-  
+<!-- Theme toggle button -->
+<button id="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>    
+
   <script>
     function handleAppear() {
     // Hide the Appear button, show the form and Close button
@@ -112,6 +114,27 @@
             alert('An error occurred. Please try again.');
         }
     }
+             // Function to toggle between light and dark themes
+             function toggleTheme() {
+      const body = document.body;
+      body.classList.toggle('light-theme');
+      body.classList.toggle('dark-theme');
+    }
+  
+    document.addEventListener('DOMContentLoaded', function () {
+      const navbar = document.getElementById('navbar');
+      const navList = navbar.querySelector('ul');
+      const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
+      const mobileNavHide = document.querySelector('.mobile-nav-hide');
+  
+      mobileNavToggle.addEventListener('click', function () {
+        navList.classList.toggle('show');
+      });
+  
+      mobileNavHide.addEventListener('click', function () {
+        navList.classList.remove('show');
+      });
+    });
 </script>
 
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
